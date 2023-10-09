@@ -89,9 +89,10 @@
         <commons-dbcp2-version>2.9.0</commons-dbcp2-version>
         <jacoco.version>0.8.10</jacoco.version>
         <pf4j.version>3.10.0</pf4j.version>
-        <!--   sonar     -->
-        <sonar.organization>metersphere</sonar.organization>
+        <!--   sonar nothing   -->
+        <sonar.organization>liuruibin</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/report-aggregate/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <modules>
@@ -255,10 +256,10 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
+                        <id>report-aggregate</id>
+                        <phase>verify</phase>
                         <goals>
-                            <goal>report</goal>
+                            <goal>report-aggregate</goal>
                         </goals>
                     </execution>
                 </executions>
