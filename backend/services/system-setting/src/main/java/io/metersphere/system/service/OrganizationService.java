@@ -9,6 +9,7 @@ import io.metersphere.sdk.dto.OptionDTO;
 import io.metersphere.sdk.dto.UserExtend;
 import io.metersphere.sdk.exception.MSException;
 import io.metersphere.sdk.util.BeanUtils;
+import io.metersphere.sdk.util.CommonBeanFactory;
 import io.metersphere.sdk.util.JSON;
 import io.metersphere.sdk.util.Translator;
 import io.metersphere.system.domain.*;
@@ -67,7 +68,11 @@ public class OrganizationService {
     @Resource
     private PluginOrganizationService pluginOrganizationService;
     @Resource
-    private BaseUserService baseUserService;
+    private UserLoginService userLoginService;
+    @Resource
+    private BaseTemplateService baseTemplateService;
+    @Resource
+    private BaseCustomFieldService baseCustomFieldService;
 
     private static final String ADD_MEMBER_PATH = "/system/organization/add-member";
     private static final String REMOVE_MEMBER_PATH = "/system/organization/remove-member";
@@ -135,6 +140,10 @@ public class OrganizationService {
         pluginOrganizationService.deleteByOrgId(organizationId);
 
         // TODO: 删除环境组, 删除定时任务
+
+        // 删除组织模板和字段
+        baseTemplateService.deleteByScopeId(organizationId);
+        baseCustomFieldService.deleteByScopeId(organizationId);
 
         // 删除组织
         organizationMapper.deleteByPrimaryKey(organizationId);
@@ -816,7 +825,7 @@ public class OrganizationService {
         userIds.addAll(organizationDTOS.stream().map(OrganizationDTO::getCreateUser).toList());
         userIds.addAll(organizationDTOS.stream().map(OrganizationDTO::getUpdateUser).toList());
         userIds.addAll(organizationDTOS.stream().map(OrganizationDTO::getDeleteUser).toList());
-        Map<String, String> userMap = baseUserService.getUserNameMap(userIds.stream().distinct().toList());
+        Map<String, String> userMap = userLoginService.getUserNameMap(userIds.stream().distinct().toList());
         List<String> ids = organizationDTOS.stream().map(OrganizationDTO::getId).toList();
         List<OrganizationCountDTO> orgCountList = extOrganizationMapper.getCountByIds(ids);
         Map<String, OrganizationCountDTO> orgCountMap = orgCountList.stream().collect(Collectors.toMap(OrganizationCountDTO::getId, count -> count));
@@ -901,7 +910,13 @@ public class OrganizationService {
         return total;
     }
 
-    public Organization checkResourceExist(String id) {
-        return ServiceUtils.checkResourceExist(organizationMapper.selectByPrimaryKey(id), "permission.system_organization_project.name");
+    /**
+     * 校验组织是否存在
+     * 这里使用静态方法，避免需要注入，导致循环依赖
+     * @param id
+     * @return
+     */
+    public static Organization checkResourceExist(String id) {
+        return ServiceUtils.checkResourceExist( CommonBeanFactory.getBean(OrganizationMapper.class).selectByPrimaryKey(id), "permission.system_organization_project.name");
     }
 }

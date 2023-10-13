@@ -290,7 +290,7 @@ public interface NoticeConstants {
         String JENKINS_TASK_EXECUTE_FAILED = "JENKINS_TASK_EXECUTE_FAILED";//Jenkins执行了测试计划:${name}
     }
 
-    interface TemplateTitle {
+    interface TemplateSubject {
         @Schema(description = "message.title.test_plan_task_create")
         String TEST_PLAN_TASK_CREATE = "TEST_PLAN_TASK_CREATE"; // 测试计划创建通知
         @Schema(description = "message.title.test_plan_task_update")
@@ -409,6 +409,13 @@ public interface NoticeConstants {
         String JENKINS_TASK_EXECUTE_SUCCESSFUL = "JENKINS_TASK_EXECUTE_SUCCESSFUL";
         @Schema(description = "message.title.jenkins_task_execute_failed")//Jenkins任务执行失败通知
         String JENKINS_TASK_EXECUTE_FAILED = "JENKINS_TASK_EXECUTE_FAILED";
+    }
 
+    interface SensitiveField {
+        String deleted = "deleted";
+        String refId = "refId";
+        String versionId = "versionId";
+        String reportId = "reportId";
+        String moduleId = "moduleId";
     }
 }

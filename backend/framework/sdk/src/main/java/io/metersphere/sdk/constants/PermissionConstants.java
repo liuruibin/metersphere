@@ -99,6 +99,7 @@ public class PermissionConstants {
     public static final String ORGANIZATION_TEMPLATE_ADD = "ORGANIZATION_TEMPLATE:READ+ADD";
     public static final String ORGANIZATION_TEMPLATE_UPDATE = "ORGANIZATION_TEMPLATE:READ+UPDATE";
     public static final String ORGANIZATION_TEMPLATE_DELETE = "ORGANIZATION_TEMPLATE:READ+DELETE";
+    public static final String ORGANIZATION_TEMPLATE_ENABLE = "ORGANIZATION_TEMPLATE:READ+ENABLE";
     /*------ end: ORGANIZATION_TEMPLATE ------*/
 
     /**
@@ -153,8 +154,8 @@ public class PermissionConstants {
     public static final String PROJECT_APPLICATION_API_UPDATE = "PROJECT_APPLICATION_API:UPDATE";
     public static final String PROJECT_APPLICATION_CASE_READ = "PROJECT_APPLICATION_CASE:READ";
     public static final String PROJECT_APPLICATION_CASE_UPDATE = "PROJECT_APPLICATION_CASE:UPDATE";
-    public static final String PROJECT_APPLICATION_ISSUE_READ = "PROJECT_APPLICATION_ISSUE:READ";
-    public static final String PROJECT_APPLICATION_ISSUE_UPDATE = "PROJECT_APPLICATION_ISSUE:UPDATE";
+    public static final String PROJECT_APPLICATION_BUG_READ = "PROJECT_APPLICATION_BUG:READ";
+    public static final String PROJECT_APPLICATION_BUG_UPDATE = "PROJECT_APPLICATION_BUG:UPDATE";
     public static final String PROJECT_APPLICATION_WORKSTATION_READ = "PROJECT_APPLICATION_WORKSTATION:READ";
     public static final String PROJECT_APPLICATION_WORKSTATION_UPDATE = "PROJECT_APPLICATION_WORKSTATION:UPDATE";
     /*------ end: PROJECT_APPLICATION ------*/
@@ -186,8 +187,6 @@ public class PermissionConstants {
     public static final String PROJECT_VERSION_READ_DELETE = "PROJECT_VERSION:READ+DELETE";
     /*------ end: PROJECT_VERSION ------*/
 
-
-
     /**
      * 文件模块树
      * 查看文件：    项目管理-文件管理-查询权限
@@ -201,4 +200,18 @@ public class PermissionConstants {
     public static final String PROJECT_FILE_MANAGEMENT_READ_UPDATE = "PROJECT_FILE_MANAGEMENT:READ+UPDATE";
     public static final String PROJECT_FILE_MANAGEMENT_READ_DOWNLOAD = "PROJECT_FILE_MANAGEMENT:READ+DOWNLOAD";
     public static final String PROJECT_FILE_MANAGEMENT_READ_DELETE = "PROJECT_FILE_MANAGEMENT:READ+DELETE";
+
+    /*------ start: PROJECT_CUSTOM_FIELD ------*/
+    public static final String PROJECT_CUSTOM_FIELD_READ = "PROJECT_CUSTOM_FIELD:READ";
+    public static final String PROJECT_CUSTOM_FIELD_ADD = "PROJECT_CUSTOM_FIELD:READ+ADD";
+    public static final String PROJECT_CUSTOM_FIELD_UPDATE = "PROJECT_CUSTOM_FIELD:READ+UPDATE";
+    public static final String PROJECT_CUSTOM_FIELD_DELETE = "PROJECT_CUSTOM_FIELD:READ+DELETE";
+    /*------ end: PROJECT_CUSTOM_FIELD ------*/
+
+    /*------ start: PROJECT_TEMPLATE ------*/
+    public static final String PROJECT_TEMPLATE_READ = "PROJECT_TEMPLATE:READ";
+    public static final String PROJECT_TEMPLATE_ADD = "PROJECT_TEMPLATE:READ+ADD";
+    public static final String PROJECT_TEMPLATE_UPDATE = "PROJECT_TEMPLATE:READ+UPDATE";
+    public static final String PROJECT_TEMPLATE_DELETE = "PROJECT_TEMPLATE:READ+DELETE";
+    /*------ end: PROJECT_TEMPLATE ------*/
 }

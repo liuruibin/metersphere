@@ -1,6 +1,6 @@
 package io.metersphere.system.service;
 
-import io.metersphere.plugin.sdk.api.MsPlugin;
+import io.metersphere.plugin.sdk.spi.MsPlugin;
 import io.metersphere.sdk.constants.StorageType;
 import io.metersphere.system.controller.handler.result.CommonResultCode;
 import io.metersphere.sdk.exception.MSException;
@@ -156,7 +156,7 @@ public class PluginLoadService {
             try {
                 loadPlugin(fileName);
                 msPluginManager.startPlugin(plugin.getId());
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 LogUtils.error("初始化插件异常" + plugin.getFileName(), e);
             }
         });

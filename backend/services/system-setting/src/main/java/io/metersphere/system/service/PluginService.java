@@ -1,18 +1,16 @@
 package io.metersphere.system.service;
 
 
-import io.metersphere.plugin.api.api.AbstractApiProtocolPlugin;
-import io.metersphere.plugin.platform.api.AbstractPlatformPlugin;
-import io.metersphere.plugin.sdk.api.MsPlugin;
-import io.metersphere.sdk.constants.KafkaPluginTopicType;
+import io.metersphere.plugin.api.spi.AbstractApiPlugin;
+import io.metersphere.plugin.platform.spi.AbstractPlatformPlugin;
+import io.metersphere.plugin.sdk.spi.MsPlugin;
 import io.metersphere.sdk.constants.KafkaTopicConstants;
 import io.metersphere.sdk.constants.PluginScenarioType;
-import io.metersphere.system.controller.handler.result.CommonResultCode;
 import io.metersphere.sdk.dto.OptionDTO;
 import io.metersphere.sdk.exception.MSException;
 import io.metersphere.sdk.util.BeanUtils;
 import io.metersphere.sdk.util.JSON;
-import io.metersphere.system.utils.ServiceUtils;
+import io.metersphere.system.controller.handler.result.CommonResultCode;
 import io.metersphere.system.domain.Plugin;
 import io.metersphere.system.domain.PluginExample;
 import io.metersphere.system.dto.PluginDTO;
@@ -20,6 +18,7 @@ import io.metersphere.system.dto.PluginNotifiedDTO;
 import io.metersphere.system.mapper.ExtPluginMapper;
 import io.metersphere.system.mapper.PluginMapper;
 import io.metersphere.system.request.PluginUpdateRequest;
+import io.metersphere.system.utils.ServiceUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
@@ -63,7 +62,7 @@ public class PluginService {
     @Resource
     private KafkaTemplate<String, String> kafkaTemplate;
     @Resource
-    private BaseUserService baseUserService;
+    private UserLoginService userLoginService;
 
     public List<PluginDTO> list() {
         List<PluginDTO> plugins = extPluginMapper.getPlugins();
@@ -73,7 +72,7 @@ public class PluginService {
 
         // 获取用户ID和名称的映射
         List<String> userIds = plugins.stream().map(PluginDTO::getCreateUser).toList();
-        Map<String, String> userNameMap = baseUserService.getUserNameMap(userIds);
+        Map<String, String> userNameMap = userLoginService.getUserNameMap(userIds);
 
         plugins.forEach(plugin -> {
             List<OptionDTO> pluginForms = scripteMap.get(plugin.getId());
@@ -152,7 +151,7 @@ public class PluginService {
         PluginWrapper pluginWrapper = pluginLoadService.getPluginWrapper(id);
         PluginDescriptor descriptor = pluginWrapper.getDescriptor();
         MsPlugin msPlugin = (MsPlugin) pluginWrapper.getPlugin();
-        if (msPlugin instanceof AbstractApiProtocolPlugin) {
+        if (msPlugin instanceof AbstractApiPlugin) {
             plugin.setScenario(PluginScenarioType.API_PROTOCOL.name());
         } else if (msPlugin instanceof AbstractPlatformPlugin) {
             plugin.setScenario(PluginScenarioType.PLATFORM.name());
@@ -186,7 +185,7 @@ public class PluginService {
      * @param fileName
      */
     public void notifiedPluginAdd(String pluginId, String fileName) {
-        notifiedPluginOperate(pluginId, fileName, KafkaPluginTopicType.ADD);
+        notifiedPluginOperate(pluginId, fileName, KafkaTopicConstants.TYPE.ADD);
     }
 
     public void notifiedPluginOperate(String pluginId, String fileName, String operate) {
@@ -203,7 +202,7 @@ public class PluginService {
      * @param pluginId
      */
     public void notifiedPluginDelete(String pluginId, String fileName) {
-        notifiedPluginOperate(pluginId, fileName, KafkaPluginTopicType.DELETE);
+        notifiedPluginOperate(pluginId, fileName, KafkaTopicConstants.TYPE.DELETE);
     }
 
     public Plugin update(PluginUpdateRequest request) {
